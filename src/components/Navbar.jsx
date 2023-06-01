@@ -1,6 +1,8 @@
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Navbar(){
+    const navigate = useNavigate();
     return(
         <>
             <SCNavbar>
