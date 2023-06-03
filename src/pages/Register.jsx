@@ -35,14 +35,14 @@ export default function Register(){
             TrackIt
             <FormContainer>
                 <form onSubmit={(signUp)}>
-                    <input type="text" placeholder="email" required value = {email} onChange = {e => setEmail(e.target.value)}/>
-                    <input type="text" placeholder="senha" required value = {pass} onChange = {e => setPass(e.target.value)}/>
-                    <input type="text" placeholder="nome" required value = {name} onChange = {e => setName(e.target.value)}/>
-                    <input type="text" placeholder="foto" required value = {image} onChange = {e => setImage(e.target.value)}/>
-                    <button type="submit">Cadastrar</button>
+                    <input data-test="email-input" type="text" placeholder="email" required value = {email} onChange = {e => setEmail(e.target.value)}/>
+                    <input data-test="password-input" type="text" placeholder="senha" required value = {pass} onChange = {e => setPass(e.target.value)}/>
+                    <input data-test="user-name-input" type="text" placeholder="nome" required value = {name} onChange = {e => setName(e.target.value)}/>
+                    <input data-test="user-image-input" type="text" placeholder="foto" required value = {image} onChange = {e => setImage(e.target.value)}/>
+                    <button data-test="signup-btn" type="submit">Cadastrar</button>
                 </form>
             </FormContainer>
-            <Link to= {`/`}>Já tem uma conta? Faça login! </Link>
+            <Link data-test="login-link" to= {`/`}>Já tem uma conta? Faça login! </Link>
         </ContainerRegister>
     </>
     )

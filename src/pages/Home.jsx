@@ -30,12 +30,12 @@ export default function Home(){
                 
                 <FormContainer>
                     <form onSubmit = {signIn}>
-                        <input type="text" placeholder="email" value = {email} required onChange = {e => setEmail(e.target.value)}/>
-                        <input type="text" placeholder="senha" value = {pass} required onChange = {e => setPass(e.target.value)}/>
-                        <button type="submit">Entrar</button>
+                        <input data-test="email-input" type="text" placeholder="email" value = {email} required onChange = {e => setEmail(e.target.value)}/>
+                        <input data-test="password-input" type="text" placeholder="senha" value = {pass} required onChange = {e => setPass(e.target.value)}/>
+                        <button data-test="login-btn" type="submit">Entrar</button>
                     </form>
                 </FormContainer>
-                <Link to= {`/cadastro`}>Não tem uma conta? Cadastre-se </Link>
+                <Link data-test="signup-link" to= {`/cadastro`}>Não tem uma conta? Cadastre-se </Link>
             </ContainerHome>
         </>
     )

@@ -6,9 +6,9 @@ export default function Footer(){
         <>
             <SCFooter>
                 <div>
-                    <Link to={"/habitos"}>Hábitos</Link>
+                    <Link data-test="habit-link" to={"/habitos"}>Hábitos</Link>
                     <img src="" alt="" />
-                    <Link to={"/historico"}>Histórico</Link>
+                    <Link data-test="history-link" to={"/historico"}>Histórico</Link>
                 </div>
             </SCFooter>
         </>
