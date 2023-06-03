@@ -27,11 +27,14 @@ const ContainerHistory = styled.div`
     background-color: #F2F2F2;
     height:900px ;
     span{
-        font-style: normal;
-        font-weight: 400;
-        font-size: 17.976px;
-        line-height: 22px;
-        color: #666666;
+        font-family: 'Lexend Deca';
+font-style: normal;
+font-weight: 400;
+font-size: 17.976px;
+line-height: 22px;
+
+color: #666666;
+
     }
 
 `

@@ -1,13 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Footer(){
+    const navigate = useNavigate();
     return(
         <>
             <SCFooter>
                 <div>
                     <Link data-test="habit-link" to={"/habitos"}>Hábitos</Link>
-                    <img src="" alt="" />
+                    <button onClick = {() => navigate('/hoje')}>Hoje</button>
                     <Link data-test="history-link" to={"/historico"}>Histórico</Link>
                 </div>
             </SCFooter>
@@ -43,7 +44,7 @@ const SCFooter = styled.div`
 
         color: #52B6FF;
     }
-    img{
+    button{
         margin-left: 15px;
         margin-right: 15px;
         width: 90px;
@@ -51,6 +52,7 @@ const SCFooter = styled.div`
         border-radius: 98.5px;
         background: #52B6FF;
         margin-bottom: 40px;
+        border: none;
     }
 
 `

@@ -1,13 +1,17 @@
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import LoginContext from "./Context/ContextLogin";
 
 export default function Navbar(){
     const navigate = useNavigate();
+    const {login, setLogin} = useContext(LoginContext);
+    
     return(
         <>
             <SCNavbar>
                 TrackIt
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV4VMYq7ofQ6RHfZoC1oQ6MykPw80yKR_53-pvogg&s" alt="" />
+                <img src= {login.image} alt="" />
             </SCNavbar>
         </>
     )
