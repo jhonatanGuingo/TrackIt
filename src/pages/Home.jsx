@@ -61,7 +61,7 @@ export default function Home() {
             <input
               disabled={load}
               data-test="password-input"
-              type="text"
+              type="password"
               placeholder="senha"
               value={pass}
               required

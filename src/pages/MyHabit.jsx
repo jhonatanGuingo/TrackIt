@@ -58,6 +58,9 @@ export default function MyHabit() {
         setLoad(false);
         alert(error);
       });
+    }else if(name === ''){
+        alert("Você precisa colocar um nome");
+        setLoad(false);
     } else {
       alert("Selecione pelo menos um dia");
       setLoad(false);
@@ -89,7 +92,7 @@ export default function MyHabit() {
               disabled={load}
               type="text"
               placeholder="nome do habito"
-              required
+              
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -128,7 +131,7 @@ export default function MyHabit() {
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
           começar a trackear!
         </span> :
-       getHabits.map(habit =>  <Habits key ={habit.id} habit ={habit} />)}
+       getHabits.map((habit) =>  <Habits  key ={habit.id} habit ={habit} />)}
       </ContainerHabit>
       <Footer />
     </>

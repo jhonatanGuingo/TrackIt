@@ -1,5 +1,5 @@
 import {useContext, useState } from "react";
-import { Form, Link } from "react-router-dom"
+import { Form, Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios";
 import logo from "../assets/img/logo.svg";
@@ -7,7 +7,7 @@ import LoginContext from "../components/Context/ContextLogin";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Register(){
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');;
     const [pass, setPass] = useState('');
     const [image, setImage] = useState('');;
@@ -25,7 +25,7 @@ export default function Register(){
         })
         
         promise.then (resposta => {
-            console.log(alert('Cadastro bem sucedido:', resposta.data))
+            navigate('/');
         })
         promise.catch (error => {
             console.log(alert(error))
