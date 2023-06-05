@@ -19,6 +19,7 @@ export default function Register(){
             image: image,
             password: pass
         })
+        
         promise.then (resposta => {
             console.log(alert('Cadastro bem sucedido:', resposta.data))
         })

@@ -12,8 +12,13 @@ import Today from "./pages/Today";
 
 function App() {
   axios.defaults.headers.common["Authorization"] = "vlGgSdWYuWevVEZOB1qCiUQE";
-  const [login, setLogin] = useState();
-
+  
+  const userData = localStorage.getItem("Data");
+  let Data = {};
+  if (userData !== null) {
+    Data = {...JSON.parse(userData)}
+  }
+  const [login, setLogin] = useState(Data);
   return (
     <>
      <LoginContext.Provider value = {{login, setLogin}}>

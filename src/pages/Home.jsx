@@ -20,7 +20,13 @@ export default function Home() {
       }
     );
     promise.then((resposta) => {
-      setLogin(resposta.data);
+      
+      const {id, name, image, token} = resposta.data;
+      setLogin((a) => ({
+        ...a, id, name, image, token
+      }));
+      const stayOn = JSON.stringify({id, name, image, token });
+      localStorage.setItem('Data', stayOn);
       navigate("/hoje");
     });
     promise.catch((error) => {
