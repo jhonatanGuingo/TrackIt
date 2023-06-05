@@ -102,6 +102,6 @@ const Habits = styled.div`
     color: ${props => props.currentSequence >= 1 ? '#8FC549' :'#666666'}
   }
   .recorde{
-    color: ${props => props.highestSequence === 0 ? '#666666' : props.highestSequence === props.currentSequence ? '#8FC549' :'#666666'}
+    color: ${props => props.highestSequence === 0 ? '#666666' : props.highestSequence >= props.currentSequence ? '#8FC549' :'#666666'}
   }
 `;
