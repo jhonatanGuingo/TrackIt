@@ -57,6 +57,7 @@ export default function MyHabit() {
       promise.catch((error) => {
         setLoad(false);
         alert(error);
+        setLoad(false);
       });
     }else if(name === ''){
         alert("Você precisa colocar um nome");
