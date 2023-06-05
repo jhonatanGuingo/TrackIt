@@ -30,9 +30,9 @@ export default function Habits(props) {
   }
 
   return (
-    <Habit>
-      <h1>{habit.name}</h1>
-      <img src={dump} alt="" onClick={deletarHabito} />
+    <Habit data-test="habit-container">
+      <h1 data-test="habit-name">{habit.name}</h1>
+      <img data-test="habit-delete-btn" src={dump} alt="" onClick={deletarHabito} />
       <div>
         <button>D</button>
         <button>S</button>

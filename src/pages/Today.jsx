@@ -7,22 +7,59 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import HabitsToday from "../components/HabitsToday";
 import Habitos from "../components/Context/ConextHabitos";
+import HabitToday from "../components/Context/ContextHabitToday";
+import { useEffect } from "react";
+import axios from "axios";
+import Progresso from "../components/Context/ContextProgresso";
 export default function Today() {
   const { login, setLogin } = useContext(LoginContext);
   const {getHabits, setGetHabits} = useContext(Habitos);
+  const {habitsToday, setHabitsToday} = useContext(HabitToday);
+  const {setProgresso} = useContext(Progresso)
   const date = dayjs().locale("pt-br");
-  console.log(login);
+  const {token} = login;
+
+  useEffect(() => {
+    const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
+    {
+      headers: {Authorization: `Bearer ${token}`}
+    })
+    promise.then((resposta) => setHabitsToday(resposta.data));
+    
+  }, [])
+
+  let contador = 0;
+  let porcento =0;
+  let num =0;
+
+  function qdtCompleta(){
+    for (let k = 0; k < habitsToday.length; k++) {
+      if(habitsToday[k].done === true){
+          contador++;
+          porcento = contador/habitsToday.length;
+      }
+    }
+  }
+
+  qdtCompleta();
+  num = (porcento*100).toFixed(0);
+  setProgresso(num);
+  console.log(num);
+  console.log(contador, habitsToday.length)
+
   return (
     <>
       <Navbar />
       <ContainerHoje>
-        <HeaderHoje>
-          <h1>
+        <HeaderHoje contador = {contador}>
+          <h1  data-test="today">
             {date.format("dddd")}, {date.format("DD")}/{date.format("MM")}
           </h1>
-          <h2>Nenhum hábito concluído ainda</h2>
+
+          {contador === 0 ? <h2 data-test="today-counter">Nenhum hábito concluído ainda</h2> : <h2 data-test="today-counter">{num}% dos hábitos concluídos</h2>}
           
-        <HabitsToday date = {date} />
+        
+        {habitsToday.map(habitToday => <HabitsToday habitToday = {habitToday} /> )}
         </HeaderHoje>
       </ContainerHoje>
       <Footer />
@@ -65,7 +102,7 @@ const HeaderHoje = styled.div`
     font-size: 17.976px;
     line-height: 22px;
 
-    color: #bababa;
+    color: ${props => props.contador === 0 ? '#bababa' :' #8FC549'};
   }
   button {
     width: 40px;

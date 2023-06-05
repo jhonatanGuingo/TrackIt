@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 
-const ContextHabitToday = React.createContext();
+const HabitToday = React.createContext();
 
-export default ContextHabitToday;
+export default HabitToday;
 

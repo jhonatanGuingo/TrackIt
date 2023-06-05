@@ -81,11 +81,11 @@ export default function MyHabit() {
       <ContainerHabit>
         <HeaderHabit>
           <h1>Meus Hábitos</h1>
-          <button onClick={addHabit}>+</button>
+          <button data-test="habit-create-btn" onClick={addHabit}>+</button>
         </HeaderHabit>
-        <CreateHabit display={display}>
+        <CreateHabit data-test="habit-create-container"  display={display}>
           <form onSubmit={createHabit}>
-            <input
+            <input data-test="habit-name-input"
               disabled={load}
               type="text"
               placeholder="nome do habito"
@@ -109,7 +109,7 @@ export default function MyHabit() {
               ))}
             </ButtonsDay>
             <ButtonSubmit>
-              <button
+              <button data-test="habit-create-cancel-btn"
                 disabled={load}
                 type="reset"
                 onClick={handleReset}
@@ -118,7 +118,7 @@ export default function MyHabit() {
               >
                 Cancelar
               </button>
-              <button disabled={load} type="submit" className="save">
+              <button data-test="habit-create-save-btn" disabled={load} type="submit" className="save">
                 Salvar
               </button>
             </ButtonSubmit>

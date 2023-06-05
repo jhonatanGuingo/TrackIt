@@ -6,7 +6,7 @@ export default function Days(props){
    const {daySelect, setDaySelect, click, setClick} = props;
    const [isClick, setIsClick] = useState(false);
     return(
-        <Day disabled = {load} onClick={() => {
+        <Day data-test="habit-day" disabled = {load} onClick={() => {
             const num = id;
                 setIsClick(!isClick);
             if (daySelect.includes(num) === false){

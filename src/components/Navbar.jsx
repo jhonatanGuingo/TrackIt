@@ -9,9 +9,9 @@ export default function Navbar(){
     
     return(
         <>
-            <SCNavbar>
+            <SCNavbar data-test = "header">
                 TrackIt
-                <img src= {login.image} alt="" />
+                <img data-test="avatar"src= {login.image} alt="" />
             </SCNavbar>
         </>
     )
