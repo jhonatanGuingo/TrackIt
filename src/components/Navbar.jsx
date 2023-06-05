@@ -20,6 +20,7 @@ const SCNavbar = styled.div`
     display: flex;
     position: fixed;
     justify-content: space-between;
+    z-index: 10;
     align-items: center;
     box-sizing: border-box;
     padding: 10px;

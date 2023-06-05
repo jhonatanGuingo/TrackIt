@@ -2,11 +2,11 @@ import { useState } from "react";
 import styled from "styled-components"
 
 export default function Days(props){
-   const {day, letter, id, key} = props;
+   const {letter, id, load} = props;
    const {daySelect, setDaySelect, click, setClick} = props;
    const [isClick, setIsClick] = useState(false);
     return(
-        <Day onClick={() => {
+        <Day disabled = {load} onClick={() => {
             const num = id;
                 setIsClick(!isClick);
             if (daySelect.includes(num) === false){

@@ -19,7 +19,8 @@ export default function Footer(){
 
 const SCFooter = styled.div`
     display: flex;
-    position: absolute;
+    position: fixed;
+    z-index: 10;
     left: 0px;
     bottom: 0px;
     justify-content: space-around;

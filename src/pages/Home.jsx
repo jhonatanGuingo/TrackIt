@@ -4,14 +4,18 @@ import logo from "../assets/img/logo.svg";
 import axios from "axios";
 import { useContext, useState } from "react";
 import LoginContext from "../components/Context/ContextLogin";
+import { useEffect } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Home() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [load, setLoad] = useState(false);
   const { login, setLogin } = useContext(LoginContext);
   function signIn(e) {
     e.preventDefault();
+    setLoad(true);
     const promise = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
       {
@@ -20,19 +24,24 @@ export default function Home() {
       }
     );
     promise.then((resposta) => {
-      
-      const {id, name, image, token} = resposta.data;
+      const { id, name, image, token } = resposta.data;
       setLogin((a) => ({
-        ...a, id, name, image, token
+        ...a,
+        id,
+        name,
+        image,
+        token,
       }));
-      const stayOn = JSON.stringify({id, name, image, token });
-      localStorage.setItem('Data', stayOn);
+      const stayOn = JSON.stringify({ id, name, image, token });
+      localStorage.setItem("Data", stayOn);
       navigate("/hoje");
     });
     promise.catch((error) => {
       console.log(alert("Erro no login:", error));
+      setLoad(false)
     });
   }
+  
   return (
     <>
       <ContainerHome>
@@ -41,6 +50,7 @@ export default function Home() {
         <FormContainer>
           <form onSubmit={signIn}>
             <input
+              disabled={load}
               data-test="email-input"
               type="text"
               placeholder="email"
@@ -49,6 +59,7 @@ export default function Home() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
+              disabled={load}
               data-test="password-input"
               type="text"
               placeholder="senha"
@@ -56,8 +67,21 @@ export default function Home() {
               required
               onChange={(e) => setPass(e.target.value)}
             />
-            <button data-test="login-btn" type="submit">
-              Entrar
+            <button disabled={load} data-test="login-btn" type="submit">
+              {load ? (
+                <ThreeDots
+                  
+                  height="40"
+                  width="40"
+                  radius="9"
+                  color="#FFFFFF"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+              ) : (
+                "Entrar"
+              )}
             </button>
           </form>
         </FormContainer>
@@ -112,7 +136,7 @@ const FormContainer = styled.div`
     line-height: 25px;
     width: 303px;
     height: 45px;
-    color: #DBDBDB;
+    color: #dbdbdb;
     border: 1px solid #d5d5d5;
     border-radius: 5px;
   }

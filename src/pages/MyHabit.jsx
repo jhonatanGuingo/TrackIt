@@ -4,75 +4,131 @@ import Navbar from "../components/Navbar";
 import { useState } from "react";
 import Days from "../components/Days";
 import { useContext } from "react";
+
 import LoginContext from "../components/Context/ContextLogin";
 import axios from "axios";
 import { useEffect } from "react";
+import Habits from "../components/Habits";
+import Habitos from "../components/Context/ConextHabitos";
 
 export default function MyHabit() {
-    const [daySelect, setDaySelect] = useState([]);
-    const [name, setName] = useState('');
-    const [click, setClick] = useState(false);
-    const {login, setLogin} = useContext(LoginContext);
-    const [display, setDisplay] = useState('none');
-    const {token} = login;
-    const days = [
-        { id: 0, day: "Domingo", letter: "D"  },
-        { id: 1, day: "Segunda", letter: "S" },
-        { id: 2, day: "Terça", letter: "T"},
-        { id: 3, day: "Quarta", letter: "Q"},
-        { id: 4, day: "Quinta", letter: "Q"},
-        { id: 5, day: "Sexta", letter: "S"},
-        { id: 6, day: "Sábado", letter: "S" }
-    ]
-    function addHabit(){
-        setDisplay('flex');
-    }
-    function createHabit(){
-        
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", {
-            name: name,
-            days: daySelect
-        },{
-            headers: {authorization: `Bearer ${token}`}
-        })
+  const [daySelect, setDaySelect] = useState([]);
+  const [name, setName] = useState("");
+  const [click, setClick] = useState(false);
+  const { login, setLogin } = useContext(LoginContext);
+  const [display, setDisplay] = useState("none");
+  const [load, setLoad] = useState(false);
+  const {getHabits, setGetHabits}= useContext(Habitos);
+  const { token } = login;
+  const days = [
+    { id: 0, day: "Domingo", letter: "D" },
+    { id: 1, day: "Segunda", letter: "S" },
+    { id: 2, day: "Terça", letter: "T" },
+    { id: 3, day: "Quarta", letter: "Q" },
+    { id: 4, day: "Quinta", letter: "Q" },
+    { id: 5, day: "Sexta", letter: "S" },
+    { id: 6, day: "Sábado", letter: "S" },
+  ];
+  function addHabit() {
+    setDisplay("flex");
+  }
+  const request = { name: name, days: daySelect };
+  console.log(request);
+  console.log(token);
+  function createHabit(e) {
+    e.preventDefault();
+    setLoad(true);
+    if (daySelect.length !== 0) {
+      const promise = axios.post(
+        "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+        request,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      promise.then((resposta) => {
+        console.log(resposta.data, "respondeu");
+        handleReset();
+        setLoad(false);
+        setDisplay("none");
+        listarHabito();
+      });
 
-        promise.then((resposta) => {
-            console.log(resposta.data,'respondeu')
-           
-        })
-
-        promise.catch((error) => console.log(error) ) 
+      promise.catch((error) => {
+        setLoad(false);
+        alert(error);
+      });
+    } else {
+      alert("Selecione pelo menos um dia");
+      setLoad(false);
     }
-    useEffect(createHabit, []);
+  }
+  useEffect(listarHabito,[]);
+  function handleReset() {
+    setDisplay("none");
+  }
+  function listarHabito(){
+    const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits',
+    { 
+        headers: {Authorization: `Bearer ${token}`}
+    });
 
-    function handleReset(){
-        setName('');
-        setDaySelect([]);
-    }
+    promise.then(resposta => setGetHabits(resposta.data));
+  }
   return (
     <>
       <Navbar />
       <ContainerHabit>
         <HeaderHabit>
           <h1>Meus Hábitos</h1>
-          <button onClick ={addHabit} >+</button>
+          <button onClick={addHabit}>+</button>
         </HeaderHabit>
-        <CreateHabit display = {display}>
-            <form onSubmit={createHabit}>
-          <input type="text" placeholder="nome do habito" value = {name} onChange = {e => setName (e.target.value)} />
-          <ButtonsDay>
-            {days.map(day => <Days key = {day.id}  click = {click} setClick = {setClick} daySelect = {daySelect} setDaySelect = {setDaySelect} id = {day.id} day = {day.day} letter ={day.letter} />)}
-          </ButtonsDay>
-          <ButtonSubmit>
-            <button onClick={handleReset} value="Reset" className="cancel">Cancelar</button>
-            <button type="submit" className="save">Salvar</button>
-          </ButtonSubmit>
+        <CreateHabit display={display}>
+          <form onSubmit={createHabit}>
+            <input
+              disabled={load}
+              type="text"
+              placeholder="nome do habito"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <ButtonsDay>
+              {days.map((day) => (
+                <Days
+                  load={load}
+                  key={day.id}
+                  click={click}
+                  setClick={setClick}
+                  daySelect={daySelect}
+                  setDaySelect={setDaySelect}
+                  id={day.id}
+                  day={day.day}
+                  letter={day.letter}
+                />
+              ))}
+            </ButtonsDay>
+            <ButtonSubmit>
+              <button
+                disabled={load}
+                type="reset"
+                onClick={handleReset}
+                value="Reset"
+                className="cancel"
+              >
+                Cancelar
+              </button>
+              <button disabled={load} type="submit" className="save">
+                Salvar
+              </button>
+            </ButtonSubmit>
           </form>
         </CreateHabit>
-        <span>
+        {getHabits.length === 0 ? <span>
           Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
           começar a trackear!
-        </span>
+        </span> :
+       getHabits.map(habit =>  <Habits key ={habit.id} habit ={habit} />)}
       </ContainerHabit>
       <Footer />
     </>
@@ -85,8 +141,10 @@ const ContainerHabit = styled.div`
   box-sizing: border-box;
   padding: 10px;
   background-color: #f2f2f2;
-  height: 900px;
+  height: 2000px;
   span {
+    display: flex;
+    margin-top: 15px;
     font-family: "Lexend Deca";
     font-style: normal;
     font-weight: 400;
@@ -118,7 +176,7 @@ const HeaderHabit = styled.div`
 `;
 
 const CreateHabit = styled.div`
-  display: ${(props) => props.display === 'none' ? `none` : `flex`};
+  display: ${(props) => (props.display === "none" ? `none` : `flex`)};
   flex-direction: column;
   height: 180px;
   position: relative;
@@ -152,13 +210,13 @@ const ButtonSubmit = styled.div`
     height: 35px;
     margin-left: 5px;
   }
-  .cancel{
-    color: #52B6FF;
+  .cancel {
+    color: #52b6ff;
     border: none;
     background-color: white;
   }
-  .save{
-    background-color: #52B6FF;
+  .save {
+    background-color: #52b6ff;
     color: white;
     border: none;
     border-radius: 4.63636px;
@@ -166,5 +224,4 @@ const ButtonSubmit = styled.div`
 `;
 const ButtonsDay = styled.div`
   display: flex;
-
 `;

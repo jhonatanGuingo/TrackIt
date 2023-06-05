@@ -2,7 +2,9 @@ import {useContext, useState } from "react";
 import { Form, Link } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios";
+import logo from "../assets/img/logo.svg";
 import LoginContext from "../components/Context/ContextLogin";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Register(){
 
@@ -11,8 +13,10 @@ export default function Register(){
     const [image, setImage] = useState('');;
     const [name, setName] = useState('');
     const {login, setLogin} = useContext(LoginContext);
+    const [load, setLoad] = useState(false);
     function signUp(e){
         e.preventDefault();
+        setLoad(true);
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', {
             email: email,
             name: name,
@@ -24,7 +28,8 @@ export default function Register(){
             console.log(alert('Cadastro bem sucedido:', resposta.data))
         })
         promise.catch (error => {
-            console.log(alert('Erro no cadastro:', error))
+            console.log(alert(error))
+            setLoad(false)
         })
     }
    
@@ -32,15 +37,28 @@ export default function Register(){
     
         <>
         <ContainerRegister>
-            <img src="" alt="" />
+            <img src={logo} alt="" />
             TrackIt
             <FormContainer>
                 <form onSubmit={(signUp)}>
-                    <input data-test="email-input" type="text" placeholder="email" required value = {email} onChange = {e => setEmail(e.target.value)}/>
-                    <input data-test="password-input" type="text" placeholder="senha" required value = {pass} onChange = {e => setPass(e.target.value)}/>
-                    <input data-test="user-name-input" type="text" placeholder="nome" required value = {name} onChange = {e => setName(e.target.value)}/>
-                    <input data-test="user-image-input" type="text" placeholder="foto" required value = {image} onChange = {e => setImage(e.target.value)}/>
-                    <button data-test="signup-btn" type="submit">Cadastrar</button>
+                    <input disabled={load} data-test="email-input" type="text" placeholder="email" required value = {email} onChange = {e => setEmail(e.target.value)}/>
+                    <input disabled={load} data-test="password-input" type="text" placeholder="senha" required value = {pass} onChange = {e => setPass(e.target.value)}/>
+                    <input  disabled={load}data-test="user-name-input" type="text" placeholder="nome" required value = {name} onChange = {e => setName(e.target.value)}/>
+                    <input disabled={load} data-test="user-image-input" type="text" placeholder="foto" required value = {image} onChange = {e => setImage(e.target.value)}/>
+                    <button disabled={load} data-test="signup-btn" type="submit"> {load ? (
+                <ThreeDots
+                  
+                  height="40"
+                  width="40"
+                  radius="9"
+                  color="#FFFFFF"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+              ) : (
+                "Cadastrar"
+              )}</button>
                 </form>
             </FormContainer>
             <Link data-test="login-link" to= {`/`}>Já tem uma conta? Faça login! </Link>
@@ -56,6 +74,7 @@ const ContainerRegister = styled.div`
     align-items: center;
 
     img{
+        margin-top: 70px;
         width: 180px;
     }
 `

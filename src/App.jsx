@@ -7,6 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import LoginContext from "./components/Context/ContextLogin";
 import Today from "./pages/Today";
+import Habitos from "./components/Context/ConextHabitos";
 
 
 
@@ -18,10 +19,12 @@ function App() {
   if (userData !== null) {
     Data = {...JSON.parse(userData)}
   }
+  const [getHabits, setGetHabits] = useState([]);
   const [login, setLogin] = useState(Data);
   return (
     <>
      <LoginContext.Provider value = {{login, setLogin}}>
+      <Habitos.Provider value = {{getHabits, setGetHabits}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -31,6 +34,7 @@ function App() {
             <Route path="/hoje" element= {<Today/>} />
           </Routes>
         </BrowserRouter>
+        </Habitos.Provider>
         </LoginContext.Provider>
    
     </>
